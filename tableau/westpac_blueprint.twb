@@ -1,0 +1,370 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<!-- Westpac Blueprint — Tableau Dashboard
+     Generated: 2026-06-09
+     Instructions:
+     1. Open this file in Tableau Public
+     2. Tableau will prompt to reconnect the 4 CSV data sources
+     3. Point each to the corresponding file in tableau/data_exports/
+     4. Worksheets and Dashboard layouts will appear automatically
+-->
+<workbook source='inline' version='10.0' xmlns:user='http://www.tableausoftware.com/xml/user' xmlns='http://www.tableausoftware.com/xml/win'>
+
+  <!-- ── STORY / OPTIONS ── -->
+  <options>
+    <option name='locale' value='en_US'/>
+  </options>
+  <preferred-views/>
+  <windows>
+    <window class='default' show-connectors-help='false' show-fields-pane='true' show-plot='true' show-status-bar='true' show-tabs='true' show-toolbar='true' pane='right' pane-width='315' sidebar='left'/>
+  </windows>
+
+  <!-- ════════════════════════════════════════════════
+       DATASOURCE 1: dim_customer_profile
+       ════════════════════════════════════════════════ -->
+  <datasource class='csv' formatted-name='dim_customer_profile' inline='true' name='dim_customer_profile' version='10.0'>
+    <connection class='csv' dbname='data_exports/dim_customer_profile.csv' filename='data_exports/dim_customer_profile.csv' server=''>
+      <cols map=''>
+        <column datatype='integer' name='SK_ID_CURR' role='dim' type='int'/>
+        <column datatype='real' name='income_total' role='measure' type='quantitative'/>
+        <column datatype='integer' name='owns_car' role='dim' type='int'/>
+        <column datatype='integer' name='owns_realty' role='dim' type='int'/>
+        <column datatype='real' name='years_employed' role='measure' type='quantitative'/>
+        <column datatype='integer' name='income_bracket' role='dim' type='int'/>
+        <column datatype='real' name='composite_score' role='measure' type='quantitative'/>
+        <column datatype='string' name='tier' role='dim' type='nominal'/>
+        <column datatype='real' name='AGE_YEARS' role='measure' type='quantitative'/>
+        <column datatype='integer' name='IS_YOUNG' role='dim' type='int'/>
+      </cols>
+    </connection>
+    <aliases enabled='yes'/>
+  </datasource>
+
+  <!-- ════════════════════════════════════════════════
+       DATASOURCE 2: fact_behavioral_features
+       ════════════════════════════════════════════════ -->
+  <datasource class='csv' formatted-name='fact_behavioral_features' inline='true' name='fact_behavioral_features' version='10.0'>
+    <connection class='csv' dbname='data_exports/fact_behavioral_features.csv' filename='data_exports/fact_behavioral_features.csv' server=''>
+      <cols map=''>
+        <column datatype='integer' name='SK_ID_CURR' role='dim' type='int'/>
+        <column datatype='real' name='income_stability_score' role='measure' type='quantitative'/>
+        <column datatype='real' name='spending_discipline_score' role='measure' type='quantitative'/>
+        <column datatype='real' name='savings_consistency_score' role='measure' type='quantitative'/>
+        <column datatype='real' name='debt_burden_score' role='measure' type='quantitative'/>
+        <column datatype='real' name='asset_signal_score' role='measure' type='quantitative'/>
+        <column datatype='real' name='behavioral_score' role='measure' type='quantitative'/>
+        <column datatype='real' name='composite_score' role='measure' type='quantitative'/>
+        <column datatype='string' name='tier' role='dim' type='nominal'/>
+      </cols>
+    </connection>
+    <aliases enabled='yes'/>
+  </datasource>
+
+  <!-- ════════════════════════════════════════════════
+       DATASOURCE 3: agg_financial_projection
+       ════════════════════════════════════════════════ -->
+  <datasource class='csv' formatted-name='agg_financial_projection' inline='true' name='agg_financial_projection' version='10.0'>
+    <connection class='csv' dbname='data_exports/agg_financial_projection.csv' filename='data_exports/agg_financial_projection.csv' server=''>
+      <cols map=''>
+        <column datatype='string' name='Year' role='dim' type='nominal'/>
+        <column datatype='integer' name='Active_Users' role='measure' type='quantitative'/>
+        <column datatype='integer' name='Converted_Loans' role='measure' type='quantitative'/>
+        <column datatype='real' name='Loan_Volume_M' role='measure' type='quantitative'/>
+        <column datatype='real' name='Commission_Saved_M' role='measure' type='quantitative'/>
+        <column datatype='real' name='Fixed_Cost_M' role='measure' type='quantitative'/>
+        <column datatype='real' name='Variable_Cost_M' role='measure' type='quantitative'/>
+        <column datatype='real' name='Total_Cost_M' role='measure' type='quantitative'/>
+        <column datatype='real' name='Net_Benefit_M' role='measure' type='quantitative'/>
+        <column datatype='string' name='Scenario' role='dim' type='nominal'/>
+        <column datatype='real' name='Penetration' role='measure' type='quantitative'/>
+        <column datatype='real' name='NPV_M' role='measure' type='quantitative'/>
+        <column datatype='real' name='ROI' role='measure' type='quantitative'/>
+      </cols>
+    </connection>
+    <aliases enabled='yes'/>
+  </datasource>
+
+  <!-- ════════════════════════════════════════════════
+       DATASOURCE 4: agg_channel_analysis
+       ════════════════════════════════════════════════ -->
+  <datasource class='csv' formatted-name='agg_channel_analysis' inline='true' name='agg_channel_analysis' version='10.0'>
+    <connection class='csv' dbname='data_exports/agg_channel_analysis.csv' filename='data_exports/agg_channel_analysis.csv' server=''>
+      <cols map=''>
+        <column datatype='string' name='Channel' role='dim' type='nominal'/>
+        <column datatype='real' name='Estimated_Share' role='measure' type='quantitative'/>
+        <column datatype='real' name='Avg_Commission_per_Loan' role='measure' type='quantitative'/>
+        <column datatype='real' name='Conversion_Rate_Estimate' role='measure' type='quantitative'/>
+      </cols>
+    </connection>
+    <aliases enabled='yes'/>
+  </datasource>
+
+  <!-- ════════════════════════════════════════════════
+       WORKSHEETS
+       ════════════════════════════════════════════════ -->
+
+  <!-- ── 1.1 Age Pyramid ── -->
+  <worksheet name='1.1 Age Pyramid'>
+    <datasources>
+      <datasource name='dim_customer_profile'/>
+    </datasources>
+    <table>
+      <view>
+        <columns>
+          <dimension name='AGE_YEARS'/>
+          <measure name='CNT(SK_ID_CURR)'/>
+        </columns>
+        <rows>
+          <dimension name='dim_customer_profile.IS_YOUNG'/>
+        </rows>
+      </view>
+    </table>
+    <tooltip>'Age: &lt;AGE_YEARS&gt; years | Count: &lt;CNT(SK_ID_CURR)&gt;'</tooltip>
+    <title>Age Distribution — Young vs Mature</title>
+  </worksheet>
+
+  <!-- ── 1.2 Segment v Income Matrix ── -->
+  <worksheet name='1.2 Segment Income Matrix'>
+    <datasources>
+      <datasource name='dim_customer_profile'/>
+    </datasources>
+    <table>
+      <view>
+        <columns>
+          <dimension name='dim_customer_profile.income_bracket'/>
+        </columns>
+        <rows>
+          <dimension name='dim_customer_profile.tier'/>
+        </rows>
+      </view>
+    </table>
+    <title>Avg Score by Income Bracket &amp; Tier</title>
+  </worksheet>
+
+  <!-- ── 1.3 Segment Pie ── -->
+  <worksheet name='1.3 Customer Segments'>
+    <datasources>
+      <datasource name='dim_customer_profile'/>
+    </datasources>
+    <table>
+      <view>
+        <columns>
+          <measure name='CNT(SK_ID_CURR)'/>
+        </columns>
+        <rows>
+          <dimension name='dim_customer_profile.tier'/>
+        </rows>
+      </view>
+    </table>
+    <title>Customer Segments by Tier</title>
+  </worksheet>
+
+  <!-- ── 1.4 Channel Mix ── -->
+  <worksheet name='1.4 Channel Mix'>
+    <datasources>
+      <datasource name='agg_channel_analysis'/>
+    </datasources>
+    <table>
+      <view>
+        <columns>
+          <measure name='SUM(Estimated_Share)'/>
+        </columns>
+        <rows>
+          <dimension name='agg_channel_analysis.Channel'/>
+        </rows>
+      </view>
+    </table>
+    <title>Broker vs Direct Channel Mix</title>
+  </worksheet>
+
+  <!-- ── 2.1 Dimension Profile ── -->
+  <worksheet name='2.1 Dimension Profile'>
+    <datasources>
+      <datasource name='fact_behavioral_features'/>
+    </datasources>
+    <table>
+      <view>
+        <columns>
+          <dimension name='fact_behavioral_features.tier'/>
+        </columns>
+        <rows>
+          <measure name='AVG(income_stability_score)'/>
+          <measure name='AVG(spending_discipline_score)'/>
+          <measure name='AVG(savings_consistency_score)'/>
+          <measure name='AVG(debt_burden_score)'/>
+          <measure name='AVG(asset_signal_score)'/>
+          <measure name='AVG(behavioral_score)'/>
+        </rows>
+      </view>
+    </table>
+    <title>6 Behavioral Dimensions by Tier</title>
+  </worksheet>
+
+  <!-- ── 2.2 Score Distribution ── -->
+  <worksheet name='2.2 Score Distribution'>
+    <datasources>
+      <datasource name='fact_behavioral_features'/>
+    </datasources>
+    <table>
+      <view>
+        <columns>
+          <dimension name='fact_behavioral_features.tier'/>
+        </columns>
+        <rows>
+          <measure name='CNT(SK_ID_CURR)'/>
+        </rows>
+      </view>
+    </table>
+    <title>Customer Distribution by Score Tier</title>
+  </worksheet>
+
+  <!-- ── 2.3 Score Boxplot ── -->
+  <worksheet name='2.3 Score Boxplot'>
+    <datasources>
+      <datasource name='fact_behavioral_features'/>
+    </datasources>
+    <table>
+      <view>
+        <columns>
+          <dimension name='fact_behavioral_features.tier'/>
+        </columns>
+        <rows>
+          <measure name='AVG(composite_score)'/>
+        </rows>
+      </view>
+    </table>
+    <title>Score Distribution — Box Plot by Tier</title>
+  </worksheet>
+
+  <!-- ── 3.1 Waterfall ── -->
+  <worksheet name='3.1 P&amp;L Waterfall'>
+    <datasources>
+      <datasource name='agg_financial_projection'/>
+    </datasources>
+    <table>
+      <view>
+        <columns>
+          <dimension name='agg_financial_projection.Year'/>
+        </columns>
+        <rows>
+          <measure name='SUM(Net_Benefit_M)'/>
+        </rows>
+      </view>
+    </table>
+    <filter>Scenario = baseline</filter>
+    <title>3-Year P&amp;L — Baseline Scenario</title>
+  </worksheet>
+
+  <!-- ── 3.2 Scenario Comparison ── -->
+  <worksheet name='3.2 Scenario Comparison'>
+    <datasources>
+      <datasource name='agg_financial_projection'/>
+    </datasources>
+    <table>
+      <view>
+        <columns>
+          <dimension name='agg_financial_projection.Scenario'/>
+        </columns>
+        <rows>
+          <measure name='SUM(NPV_M)'/>
+        </rows>
+      </view>
+    </table>
+    <title>NPV by Scenario (AUD M)</title>
+  </worksheet>
+
+  <!-- ── 3.3 ROI Gauge ── -->
+  <worksheet name='3.3 ROI Gauge'>
+    <datasources>
+      <datasource name='agg_financial_projection'/>
+    </datasources>
+    <table>
+      <view>
+        <columns>
+          <measure name='SUM(ROI)'/>
+        </columns>
+      </view>
+    </table>
+    <filter>Scenario = baseline</filter>
+    <title>ROI — Baseline Scenario</title>
+  </worksheet>
+
+  <!-- ════════════════════════════════════════════════
+       DASHBOARDS
+       ════════════════════════════════════════════════ -->
+
+  <!-- ── Dashboard 1: Customer Intelligence ── -->
+  <dashboard name='1. Customer Intelligence'>
+    <size x='1000' y='800'/>
+    <zone type='tab' name='tab_1'>
+      <zone type='vertical' name='v_main'>
+        <zone type='horizontal' name='h_top'>
+          <zone type='item' name='1.1 Age Pyramid' style='inset'/>
+          <zone type='item' name='1.2 Segment Income Matrix' style='inset'/>
+        </zone>
+        <zone type='horizontal' name='h_bottom'>
+          <zone type='item' name='1.3 Customer Segments' style='inset'/>
+          <zone type='item' name='1.4 Channel Mix' style='inset'/>
+        </zone>
+      </zone>
+    </zone>
+  </dashboard>
+
+  <!-- ── Dashboard 2: Behavioral Features ── -->
+  <dashboard name='2. Behavioral Features'>
+    <size x='1000' y='800'/>
+    <zone type='tab' name='tab_2'>
+      <zone type='vertical' name='v_main2'>
+        <zone type='horizontal' name='h_top2'>
+          <zone type='item' name='2.1 Dimension Profile' style='inset'/>
+          <zone type='item' name='2.2 Score Distribution' style='inset'/>
+        </zone>
+        <zone type='horizontal' name='h_bottom2'>
+          <zone type='item' name='2.3 Score Boxplot' style='inset'/>
+          <zone type='empty'/>
+        </zone>
+      </zone>
+    </zone>
+  </dashboard>
+
+  <!-- ── Dashboard 3: Financial Impact ── -->
+  <dashboard name='3. Financial Impact'>
+    <size x='1000' y='800'/>
+    <zone type='tab' name='tab_3'>
+      <zone type='vertical' name='v_main3'>
+        <zone type='horizontal' name='h_top3'>
+          <zone type='item' name='3.1 P&amp;L Waterfall' style='inset'/>
+          <zone type='item' name='3.2 Scenario Comparison' style='inset'/>
+        </zone>
+        <zone type='horizontal' name='h_bottom3'>
+          <zone type='item' name='3.3 ROI Gauge' style='inset'/>
+          <zone type='empty'/>
+        </zone>
+      </zone>
+    </zone>
+  </dashboard>
+
+  <!-- ── Dashboard Order ── -->
+  <dashboard-tabs>
+    <dashboard-tab name='1. Customer Intelligence'/>
+    <dashboard-tab name='2. Behavioral Features'/>
+    <dashboard-tab name='3. Financial Impact'/>
+  </dashboard-tabs>
+
+  <!-- ── Worksheet Order ── -->
+  <window-tabs>
+    <window-tab name='1. Customer Intelligence'/>
+    <window-tab name='2. Behavioral Features'/>
+    <window-tab name='3. Financial Impact'/>
+    <window-tab name='1.1 Age Pyramid'/>
+    <window-tab name='1.2 Segment Income Matrix'/>
+    <window-tab name='1.3 Customer Segments'/>
+    <window-tab name='1.4 Channel Mix'/>
+    <window-tab name='2.1 Dimension Profile'/>
+    <window-tab name='2.2 Score Distribution'/>
+    <window-tab name='2.3 Score Boxplot'/>
+    <window-tab name='3.1 P&amp;L Waterfall'/>
+    <window-tab name='3.2 Scenario Comparison'/>
+    <window-tab name='3.3 ROI Gauge'/>
+  </window-tabs>
+
+</workbook>

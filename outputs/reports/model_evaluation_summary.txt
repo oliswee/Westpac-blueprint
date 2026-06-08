@@ -1,0 +1,37 @@
+
+    MODEL EVALUATION SUMMARY
+    ==================================================
+
+    Best Model: XGBoost
+    AUC-ROC:    0.7154
+    AUC-PR:     0.2012
+    Best F1:    0.2710 (threshold = 0.61)
+
+    Confusion Matrix (threshold=0.61):
+      TN=48908  FP=7630
+      FN=2991  TP=1974
+
+    Top-10 Features (by SHAP):
+                     feature  mean_abs_shap
+          years_employed       0.253120
+bureau_days_since_latest       0.191495
+         education_score       0.176903
+         inst_late_ratio       0.176063
+          debt_to_income       0.140187
+   prev_app_annuity_mean       0.135026
+      prev_app_days_mean       0.111871
+      prev_refused_ratio       0.108588
+           total_credits       0.093886
+        prev_app_amt_max       0.087706
+
+    Classification Report:
+                  precision    recall  f1-score   support
+
+  No Default       0.94      0.87      0.90     56538
+     Default       0.21      0.40      0.27      4965
+
+    accuracy                           0.83     61503
+   macro avg       0.57      0.63      0.59     61503
+weighted avg       0.88      0.83      0.85     61503
+
+    
